@@ -1,0 +1,15 @@
+export default {
+  printWidth: 120,
+  tabWidth: 2,
+  useTabs: false,
+  semi: false,
+  singleQuote: true,
+  jsxSingleQuote: false,
+  trailingComma: 'all',
+  bracketSpacing: true,
+  bracketSameLine: false,
+  arrowParens: 'always',
+  endOfLine: 'lf',
+  insertFinalNewline: true,
+  ignorePatterns: ['node_modules/**', '.output/**', '.data/**', 'coverage/**', 'server/utils/wechat.ts'],
+}

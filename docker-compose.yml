@@ -1,0 +1,27 @@
+services:
+  course-sched-center:
+    build: .
+    container_name: course-sched-center
+    restart: unless-stopped
+    environment:
+      KB_TOTP_SECRET: ${KB_TOTP_SECRET:?请在 .env 中配置 KB_TOTP_SECRET}
+      KB_JWT_SECRET: ${KB_JWT_SECRET:?请在 .env 中配置 KB_JWT_SECRET}
+      KB_WCMP_APPID: ${KB_WCMP_APPID:?请在 .env 中配置 KB_WCMP_APPID}
+      KB_WCMP_SECRET: ${KB_WCMP_SECRET:?请在 .env 中配置 KB_WCMP_SECRET}
+      KB_WCMP_TEMPLATE_ID: ${KB_WCMP_TEMPLATE_ID:?请在 .env 中配置 KB_WCMP_TEMPLATE_ID}
+      KB_FEEDBACK_HOOK: ${KB_FEEDBACK_HOOK:-}
+    ports:
+      # 端口映射（默认 3000，可用 .env 的 PORT 改），容器内固定监听 3000
+      - '${PORT:-3000}:3000'
+    volumes:
+      # SQLite 数据目录，容器内文件为 /app/.data/main.sqlite
+      - csc-data:/app/.data
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:3000/notice']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  csc-data:
